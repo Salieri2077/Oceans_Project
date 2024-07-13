@@ -7,9 +7,9 @@ from collections import Counter
 # 读取MATLAB生成的参数
 def load_tx_params(file_name=r'.\tx_params.mat'):
     params = scipy.io.loadmat(file_name)
-    N_s = params['N_s'][0][0]
+    N_s = params['N_s'].flatten()
     xi = params['xi'][0][0]
-    T_send = params['T_send'][0][0]
+    T_send = params['T_send'].flatten()
     Rb = params['Rb'][0][0]
     BER = params['BER'][0][0]
     return N_s, xi, T_send, Rb, BER
@@ -36,7 +36,7 @@ def generate_mcs_configs(N_s, xi, T_send, Rb, BER, snr_thresholds):
                 raise ValueError(f"Unsupported modulation: {modulation}")
             
             threshold = snr_thresholds[index - 1] if index <= len(snr_thresholds) else float('inf')
-            rate = (bitnum_per * eval(coding_rate) * Rb * (1 - BER)) / T_send
+            rate = (bitnum_per * eval(coding_rate) * N_s[index - 1] * (1 - BER)) / T_send[index - 1]
             mcs_configs[f'MCS{index}'] = {
                 'modulation': modulation,
                 'coding_rate': coding_rate,

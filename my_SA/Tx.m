@@ -17,8 +17,6 @@ combinations = {
     struct('Mod', 8, 'rate', 1/4)
 };
 %% 基本参数
-Mod = 4; % MPSK模式
-bitnum_per = log2(Mod);
 fs = 48000;                                                            % 采样频率
 fl = 10e3;                                                             % (LFM)下限频率
 B = 4e3;                                                               % 通信带宽
@@ -26,9 +24,7 @@ fh = fl+B;                                                              % (LFM)�
 f0 = (fl + fh) / 2;                                                        % 中心频率（单频带传输）==12KHz
 Rb = 2000;                                                             % 符号率
 N_up = fs / Rb;                                                        % 升采样点数
-N_bit = 3000;                                                          % 发送的比特数
-N_BS = N_bit/bitnum_per;                                                  % 发送的符号数--QPSK
-length_BS = N_BS * N_up*2;                                             % 使用卷积码需要乘2
+N_bit = 6000;                                                          % 发送的比特数
 alpha = 1;                                                              % 滚降系数
 N_filter = 512;                                                        % 滤波器阶数
 % PulseShape = rcosfir(alpha, [ ], N_up, 1, 'sqrt');  % 脉冲成型滤波器（低通滤波器）
@@ -78,8 +74,7 @@ num_points = length(origin_data);num_windows = length(best_modulation_schemes);w
 % 计算每24(window_size)个点的平均值赋值给SNR
 SNR = mean(reshape(origin_data(1:num_windows*window_size), window_size, []));
 % 初始化存储结果的变量
-all_BER_dc = [];
-all_time_points = [];
+all_BER_dc = [];all_time_points = [];all_throughput = [];
 for num_point = 1:length(best_modulation_schemes)
     switch char(best_modulation_schemes{num_point})
         case 'BPSK_1/2'
@@ -177,7 +172,7 @@ for num_point = 1:length(best_modulation_schemes)
     signal_rec_origin_information = signal_send(length_measure+length_GI+1 : length_measure+length_GI+length_BS);
     %% 信道均衡
     Need_len =  length(signal_rec_dc_information);
-    signal_rec_dc_information = LTE_LMS_fun1(25,0.01,Need_len/2,Need_len/2,signal_rec_dc_information,signal_rec_origin_information);
+%     signal_rec_dc_information = LTE_LMS_fun1(25,0.01,Need_len/2,Need_len/2,signal_rec_dc_information,signal_rec_origin_information);
     %% 相干解调--IQ解调+下载波
     [symbol_demodulate_nodc] = IQdemodulate(signal_rec_nodc_information, fs, length_BS, f0, PulseShape, N_up);
     [symbol_demodulate_dc] = IQdemodulate(signal_rec_dc_information, fs, length_BS, f0, PulseShape, N_up);
@@ -213,11 +208,15 @@ for num_point = 1:length(best_modulation_schemes)
 %     title('未进行多普勒补偿且未进行信道均衡前')
 %     scatterplot(symbol_demodulate_dc);
 %     title('采用多普勒补偿和信道均衡后')
-% 存储SNR、BER_dc和时间点
+    % 存储BER_dc和时间点
     all_BER_dc = [all_BER_dc, BER_dc];
     all_time_points = [all_time_points, num_point];
+    % 计算吞吐量
+    T_send = length(signal_send) / fs;  % 每次因采取不同的调制方式发送时间不同
+    throughput = (bitnum_per * N_BS * rate * (1 - BER_dc)) / T_send;
+    all_throughput = [all_throughput throughput];
     % 除了以下变量不重置，其他全重置以避免干扰
-    clearvars -except best_modulation_schemes N_bit N_up f0 fs PulseShape B fl b1 Rb random_bits bit_generate tre1 interleaved_data combinations scrambled_bits SNR  all_BER_dc all_time_points
+    clearvars -except best_modulation_schemes N_bit N_up f0 fs PulseShape B fl b1 Rb random_bits bit_generate tre1 interleaved_data combinations scrambled_bits SNR  all_BER_dc all_time_points all_throughput
 end
 %% plot
 figure;
@@ -240,15 +239,15 @@ for i = 1:length(all_time_points)
     scheme_str = char(best_modulation_schemes{i});  % 将其转换为 MATLAB 字符串
     scheme_index = find(strcmp(scheme_names, scheme_str));
     % 绘制3D散点图
-%     scatter3(all_time_points(i), SNR(i), all_BER_dc(i), 36, colors(scheme_index, :), 'filled');
+    scatter3(all_time_points(i), SNR(i), all_BER_dc(i), 36, colors(scheme_index, :), 'filled');
 %     scatter3(all_time_points(i), all_BER_dc(i), SNR(i), 36, colors(scheme_index, :), 'filled');
 %     scatter3(SNR(i), all_BER_dc(i), all_time_points(i), 36, colors(scheme_index, :), 'filled');
 end
-scatter3(all_time_points, SNR, all_BER_dc, 36, colors(scheme_index, :), 'filled');
+% scatter3(all_time_points, SNR, all_BER_dc, 36, colors(scheme_index, :), 'filled');
 % 绘制图例，只绘制一次
-% for j = 1:length(scheme_names)
-%     legend_handles(j) = scatter3(NaN, NaN, NaN, 36, colors(j, :), 'filled');
-% end
+for j = 1:length(scheme_names)
+    legend_handles(j) = scatter3(NaN, NaN, NaN, 36, colors(j, :), 'filled');
+end
 xlabel('时间点');
 ylabel('信噪比 (SNR)');
 zlabel('误码率 (BER\_dc)');
@@ -257,3 +256,9 @@ grid on;
 % 添加图例
 legend(legend_handles, scheme_names, 'Location', 'best');
 hold off;
+%% plot-吞吐量
+figure;
+plot(SNR,all_throughput,'o');
+xlabel('SNR(dB)');
+ylabel('Throughput(bps)');
+title('SNR-Throughput');
