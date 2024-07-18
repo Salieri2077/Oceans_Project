@@ -1,0 +1,64 @@
+Args in experiment:
+Namespace(random_seed=2024, is_training=1, model_id='test', model='VanillaRNN', data='Inpulse_hour', root_path='./data/ETT/', data_path='Inpulse_hour.csv', features='M', target='together', freq='h', checkpoints='./checkpoints/', seq_len=96, label_len=48, pred_len=72, rnn_type='lstm', dec_way='pmf', seg_len=48, win_len=48, channel_id=1, fc_dropout=0.05, head_dropout=0.0, patch_len=16, stride=8, padding_patch='end', revin=0, affine=0, subtract_last=0, decomposition=0, kernel_size=25, individual=0, embed_type=0, enc_in=1, dec_in=1, c_out=1, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=0, itr=1, train_epochs=30, batch_size=32, patience=3, learning_rate=0.0001, des='test', loss='mse', lradj='type1', pct_start=0.3, use_amp=False, inverse=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : test_VanillaRNN_Inpulse_hour_ftM_sl96_pl72_dm512_dr0.05_rtlstm_dwpmf_sl48_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4153
+val 2089
+test 2089
+        iters: 100, epoch: 1 | loss: 0.2419456
+        speed: 0.0734s/iter; left time: 276.7092s
+Epoch: 1 cost time: 9.489349842071533
+Epoch: 1, Steps: 129 | Train Loss: 0.2865181 Vali Loss: 0.2795345 Test Loss: 0.2760996
+Validation loss decreased (inf --> 0.279534).  Saving model ...
+Updating learning rate to 0.0001
+        iters: 100, epoch: 2 | loss: 0.2370515
+        speed: 0.1231s/iter; left time: 448.4116s
+Epoch: 2 cost time: 8.92874002456665
+Epoch: 2, Steps: 129 | Train Loss: 0.2305378 Vali Loss: 0.2327452 Test Loss: 0.2348360
+Validation loss decreased (0.279534 --> 0.232745).  Saving model ...
+Updating learning rate to 5e-05
+        iters: 100, epoch: 3 | loss: 0.3585261
+        speed: 0.1228s/iter; left time: 431.5678s
+Epoch: 3 cost time: 8.986136198043823
+Epoch: 3, Steps: 129 | Train Loss: 0.2261562 Vali Loss: 0.2324557 Test Loss: 0.2346203
+Validation loss decreased (0.232745 --> 0.232456).  Saving model ...
+Updating learning rate to 2.5e-05
+        iters: 100, epoch: 4 | loss: 0.1509430
+        speed: 0.1235s/iter; left time: 418.0484s
+Epoch: 4 cost time: 9.028401851654053
+Epoch: 4, Steps: 129 | Train Loss: 0.2251825 Vali Loss: 0.2274980 Test Loss: 0.2304725
+Validation loss decreased (0.232456 --> 0.227498).  Saving model ...
+Updating learning rate to 1.25e-05
+        iters: 100, epoch: 5 | loss: 0.3812245
+        speed: 0.1223s/iter; left time: 398.1959s
+Epoch: 5 cost time: 8.849907159805298
+Epoch: 5, Steps: 129 | Train Loss: 0.2167266 Vali Loss: 0.2143832 Test Loss: 0.2147103
+Validation loss decreased (0.227498 --> 0.214383).  Saving model ...
+Updating learning rate to 6.25e-06
+        iters: 100, epoch: 6 | loss: 0.2232046
+        speed: 0.1247s/iter; left time: 389.6915s
+Epoch: 6 cost time: 9.093841791152954
+Epoch: 6, Steps: 129 | Train Loss: 0.2111192 Vali Loss: 0.2100958 Test Loss: 0.2125080
+Validation loss decreased (0.214383 --> 0.210096).  Saving model ...
+Updating learning rate to 3.125e-06
+        iters: 100, epoch: 7 | loss: 0.1379693
+        speed: 0.1245s/iter; left time: 372.9825s
+Epoch: 7 cost time: 9.000832557678223
+Epoch: 7, Steps: 129 | Train Loss: 0.2091503 Vali Loss: 0.2113219 Test Loss: 0.2124987
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 1.5625e-06
+        iters: 100, epoch: 8 | loss: 0.2129116
+        speed: 0.1246s/iter; left time: 357.3645s
+Epoch: 8 cost time: 9.112475395202637
+Epoch: 8, Steps: 129 | Train Loss: 0.2089728 Vali Loss: 0.2112623 Test Loss: 0.2126367
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 7.8125e-07
+        iters: 100, epoch: 9 | loss: 0.1966854
+        speed: 0.1221s/iter; left time: 334.4288s
+Epoch: 9 cost time: 9.011680126190186
+Epoch: 9, Steps: 129 | Train Loss: 0.2079961 Vali Loss: 0.2111037 Test Loss: 0.2124761
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : test_VanillaRNN_Inpulse_hour_ftM_sl96_pl72_dm512_dr0.05_rtlstm_dwpmf_sl48_test_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2089
+mse:0.5989097952842712, mae:0.212507963180542, ms/sample:1.2372873113622158

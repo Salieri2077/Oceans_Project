@@ -1,0 +1,34 @@
+Args in experiment:
+Namespace(random_seed=2024, is_training=1, model_id='test', model='VanillaRNN', data='Inpulse_hour', root_path='./data/ETT/', data_path='BCH_Inpulse_hour.csv', features='M', target='together', freq='h', checkpoints='./checkpoints/', seq_len=96, label_len=48, pred_len=96, rnn_type='rnn', dec_way='pmf', seg_len=48, win_len=48, channel_id=1, fc_dropout=0.05, head_dropout=0.0, patch_len=16, stride=8, padding_patch='end', revin=0, affine=0, subtract_last=0, decomposition=0, kernel_size=25, individual=0, embed_type=0, enc_in=1, dec_in=1, c_out=1, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=0, itr=1, train_epochs=30, batch_size=32, patience=3, learning_rate=0.0001, des='test', loss='mse', lradj='type1', pct_start=0.3, use_amp=False, inverse=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : test_VanillaRNN_Inpulse_hour_ftM_sl96_pl96_dm512_dr0.05_rtrnn_dwpmf_sl48_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4129
+val 2065
+test 2065
+        iters: 100, epoch: 1 | loss: 0.1669325
+        speed: 0.0891s/iter; left time: 335.8568s
+Epoch: 1 cost time: 11.485565423965454
+Epoch: 1, Steps: 129 | Train Loss: 0.2441399 Vali Loss: 0.2106845 Test Loss: 0.2115803
+Validation loss decreased (inf --> 0.210684).  Saving model ...
+Updating learning rate to 0.0001
+        iters: 100, epoch: 2 | loss: 0.1664048
+        speed: 0.1511s/iter; left time: 550.3141s
+Epoch: 2 cost time: 10.8544340133667
+Epoch: 2, Steps: 129 | Train Loss: 0.2198552 Vali Loss: 0.2119923 Test Loss: 0.2093108
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 5e-05
+        iters: 100, epoch: 3 | loss: 0.2343773
+        speed: 0.1477s/iter; left time: 518.9889s
+Epoch: 3 cost time: 10.54169511795044
+Epoch: 3, Steps: 129 | Train Loss: 0.2175467 Vali Loss: 0.2126339 Test Loss: 0.2092909
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 2.5e-05
+        iters: 100, epoch: 4 | loss: 0.3500174
+        speed: 0.1446s/iter; left time: 489.1987s
+Epoch: 4 cost time: 10.887754440307617
+Epoch: 4, Steps: 129 | Train Loss: 0.2174074 Vali Loss: 0.2116445 Test Loss: 0.2091131
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : test_VanillaRNN_Inpulse_hour_ftM_sl96_pl96_dm512_dr0.05_rtrnn_dwpmf_sl48_test_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2065
+mse:0.7874289155006409, mae:0.2115803211927414, ms/sample:1.3458126105061454

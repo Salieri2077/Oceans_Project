@@ -15,7 +15,7 @@ combinations = {
     struct('Mod', 8, 'rate', 1/4)
 };
 %% 选择
-option = 'QPSK_1/2';
+option = 'BPSK_1/2';
 switch option
     case 'BPSK_1/2'
         Mod = combinations{1}.Mod;

@@ -16,7 +16,7 @@ N_filter = 512; % 滤波器阶数
 PulseShape = rcosdesign(alpha, 1, N_up, 'sqrt'); % 脉冲成型滤波器
 b1 = fir1(N_filter, 2 * [fl fh] / fs); % 带通滤波器
 %% 信噪比范围
-snr_range = -5:20; % 调整信噪比范围
+snr_range = -3:0.1:9; % 调整信噪比范围
 %% 调制和码率组合
 combinations = {
     struct('Mod', 2, 'rate', 1/2),
@@ -160,13 +160,13 @@ for comb_idx = 1:length(combinations)
     BER_nodc = BER_results{comb_idx}.BER_nodc;
     BER_dc = BER_results{comb_idx}.BER_dc;
 %     semilogy(snr_range, BER_nodc, '-o', 'LineWidth', 2, 'DisplayName', ['Mod=' num2str(combinations{comb_idx}.Mod) ', Rate=' num2str(combinations{comb_idx}.rate)]);
-    semilogy(snr_range, BER_dc, '-s', 'LineWidth', 2, 'DisplayName', ['Mod=' num2str(combinations{comb_idx}.Mod) ', Rate=' num2str(combinations{comb_idx}.rate) ' (DC)']);
+    semilogy(snr_range, BER_dc, '-s', 'LineWidth', 2, 'DisplayName', ['Mod=' num2str(combinations{comb_idx}.Mod) ', Rate=' num2str(combinations{comb_idx}.rate)]);
 end
 grid on;
-xlabel('信噪比 (dB)');
-ylabel('误码率');
+xlabel('SNR (dB)');
+ylabel('BER');
 legend;
-title('误码率随信噪比变化曲线');
+% title('误码率随信噪比变化曲线');
 
 %% 辅助函数
 function symbols = SymbolDecision(symbol_demod, Table)

@@ -2,7 +2,7 @@ function [SignalAftFdn] = FadingNoiseAdd(Signal_in,SNR,fs,Rb)
     % 尝试加多途噪声
     baud = Rb;
     lenChannel = 6 * fs/baud;   % # of samples, channel delay spread range
-    nMultiPass = 5; % , # of multipasses
+    nMultiPass = 15; % , # of multipasses
     mpChannel = zeros(lenChannel, 1);
     phi = 2*pi*rand(nMultiPass, 1);
     rng(1); % 纪录随机数
@@ -15,7 +15,16 @@ function [SignalAftFdn] = FadingNoiseAdd(Signal_in,SNR,fs,Rb)
     end
     % 自然信道一般是实信道
     mpChannel = abs(mpChannel);
-%     figure, plot(mpChannel); % 绘制单位脉冲响应
+    
+%     t = 0:1/fs:(length(mpChannel)-1)/fs;
+%     % 筛选出非零值及其对应的时间索引
+%     nonZeroIndices = mpChannel > 0;
+%     mpChannel_nonZero = mpChannel(nonZeroIndices);
+%     t_nonZero = t(nonZeroIndices);
+%     % 绘制单位脉冲响应，只显示非零值
+%     figure, stem(t_nonZero, mpChannel_nonZero);
+%     xlabel('Time/s');
+%     ylabel('Amplitude');
 
     % Fading channel y(t) = h(t)*x(t) + n(t)
 %     realTxWave = Signal_in;

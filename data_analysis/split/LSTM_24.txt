@@ -1,0 +1,65 @@
+////////////////////////////////////////////LSTM////////////////////////////////////////////////////
+Args in experiment:
+Namespace(is_training=1, model_id='test', model='LSTM', data='Inpulse_hour', root_path='./data/ETT/', data_path='Inpulse_hour.csv', features='S', target='together', freq='h', checkpoints='./checkpoints/', seq_len=96, label_len=48, pred_len=24, bucket_size=4, n_hashes=4, enc_in=1, dec_in=1, c_out=1, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=0, itr=1, train_epochs=1000, batch_size=32, patience=3, learning_rate=0.0001, des='test', loss='mse', lradj='type1', use_amp=False, inverse=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : test_LSTM_Inpulse_hour_ftS_sl96_ll48_pl24_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4201
+val 2137
+test 2137
+        iters: 100, epoch: 1 | loss: 1.1442001
+        speed: 0.0248s/iter; left time: 3252.4284s
+Epoch: 1 cost time: 2.890632390975952
+Epoch: 1, Steps: 131 | Train Loss: 0.6232820 Vali Loss: 0.4833932 Test Loss: 0.4522199
+Validation loss decreased (inf --> 0.483393).  Saving model ...
+Updating learning rate to 0.0001
+        iters: 100, epoch: 2 | loss: 0.0709619
+        speed: 0.0254s/iter; left time: 3325.5877s
+Epoch: 2 cost time: 1.7285997867584229
+Epoch: 2, Steps: 131 | Train Loss: 0.5071010 Vali Loss: 0.4230476 Test Loss: 0.3895181
+Validation loss decreased (0.483393 --> 0.423048).  Saving model ...
+Updating learning rate to 5e-05
+        iters: 100, epoch: 3 | loss: 0.0292020
+        speed: 0.0257s/iter; left time: 3352.9047s
+Epoch: 3 cost time: 1.7152981758117676
+Epoch: 3, Steps: 131 | Train Loss: 0.4559550 Vali Loss: 0.4035296 Test Loss: 0.3701822
+Validation loss decreased (0.423048 --> 0.403530).  Saving model ...
+Updating learning rate to 2.5e-05
+        iters: 100, epoch: 4 | loss: 1.1968569
+        speed: 0.0253s/iter; left time: 3295.4983s
+Epoch: 4 cost time: 1.7261734008789062
+Epoch: 4, Steps: 131 | Train Loss: 0.4376825 Vali Loss: 0.3954484 Test Loss: 0.3622797
+Validation loss decreased (0.403530 --> 0.395448).  Saving model ...
+Updating learning rate to 1.25e-05
+        iters: 100, epoch: 5 | loss: 0.2428152
+        speed: 0.0251s/iter; left time: 3267.6931s
+Epoch: 5 cost time: 1.7232604026794434
+Epoch: 5, Steps: 131 | Train Loss: 0.4302180 Vali Loss: 0.3878462 Test Loss: 0.3575939
+Validation loss decreased (0.395448 --> 0.387846).  Saving model ...
+Updating learning rate to 6.25e-06
+        iters: 100, epoch: 6 | loss: 0.0199821
+        speed: 0.0255s/iter; left time: 3315.7915s
+Epoch: 6 cost time: 1.7274413108825684
+Epoch: 6, Steps: 131 | Train Loss: 0.4233221 Vali Loss: 0.3664408 Test Loss: 0.3564247
+Validation loss decreased (0.387846 --> 0.366441).  Saving model ...
+Updating learning rate to 3.125e-06
+        iters: 100, epoch: 7 | loss: 1.2370960
+        speed: 0.0257s/iter; left time: 3342.6972s
+Epoch: 7 cost time: 1.7271177768707275
+Epoch: 7, Steps: 131 | Train Loss: 0.4240368 Vali Loss: 0.3703666 Test Loss: 0.3547378
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 1.5625e-06
+        iters: 100, epoch: 8 | loss: 0.0543414
+        speed: 0.0256s/iter; left time: 3326.1868s
+Epoch: 8 cost time: 1.731799602508545
+Epoch: 8, Steps: 131 | Train Loss: 0.4229618 Vali Loss: 0.3864757 Test Loss: 0.3540831
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 7.8125e-07
+        iters: 100, epoch: 9 | loss: 1.0038253
+        speed: 0.0257s/iter; left time: 3342.8579s
+Epoch: 9 cost time: 1.73114013671875
+Epoch: 9, Steps: 131 | Train Loss: 0.4224922 Vali Loss: 0.3864492 Test Loss: 0.3541007
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : test_LSTM_Inpulse_hour_ftS_sl96_ll48_pl24_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_test_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2137
+mse:0.35750603675842285, mae:0.18320244550704956

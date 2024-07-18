@@ -3,7 +3,7 @@ clear all;
 close all;
 set(0, 'defaultAxesXGrid','on', 'defaultAxesYGrid', 'on') %打开网格
 %% 第一次打开MATLAB需设置 Python 环境，后续运行可注释
-% pyversion('E:\Anaconda\Data\envs\myenv\python.exe');
+% pyversion('E:\mp4\venv\Scripts\python.exe');
 %% 调制和码率组合
 combinations = {
     struct('Mod', 2, 'rate', 1/2),
@@ -70,6 +70,7 @@ catch ME
 end
 data = load(fullfile('.', file_name, 'data.mat'));
 origin_data = data.origin_data(:);
+% origin_data = data.pred_data(:);
 num_points = length(origin_data);num_windows = length(best_modulation_schemes);window_size = floor(num_points/num_windows);
 % 计算每24(window_size)个点的平均值赋值给SNR
 SNR = mean(reshape(origin_data(1:num_windows*window_size), window_size, []));
@@ -225,7 +226,7 @@ colors = [
     1, 0, 0;    % BPSK_1/2
     0, 1, 0;    % BPSK_1/3
     0, 0, 1;    % BPSK_1/4
-    1, 1, 0;    % QPSK_1/2
+    0, 0.6, 0.5;    % QPSK_1/2
     1, 0, 1;    % QPSK_1/3
     0, 1, 1;    % QPSK_1/4
     0.5, 0, 0;  % 8PSK_1/2
@@ -240,18 +241,18 @@ for i = 1:length(all_time_points)
     scheme_index = find(strcmp(scheme_names, scheme_str));
     % 绘制3D散点图
     scatter3(all_time_points(i), SNR(i), all_BER_dc(i), 36, colors(scheme_index, :), 'filled');
-%     scatter3(all_time_points(i), all_BER_dc(i), SNR(i), 36, colors(scheme_index, :), 'filled');
-%     scatter3(SNR(i), all_BER_dc(i), all_time_points(i), 36, colors(scheme_index, :), 'filled');
+    % scatter3(all_time_points(i), all_BER_dc(i), SNR(i), 36, colors(scheme_index, :), 'filled');
+    % scatter3(SNR(i), all_BER_dc(i), all_time_points(i), 36, colors(scheme_index, :), 'filled');
 end
 % scatter3(all_time_points, SNR, all_BER_dc, 36, colors(scheme_index, :), 'filled');
 % 绘制图例，只绘制一次
 for j = 1:length(scheme_names)
     legend_handles(j) = scatter3(NaN, NaN, NaN, 36, colors(j, :), 'filled');
 end
-xlabel('时间点');
-ylabel('信噪比 (SNR)');
-zlabel('误码率 (BER\_dc)');
-title('时间变化下的信噪比和误码率');
+xlabel('Time Point');
+ylabel('SNR');
+zlabel('BER\_dc');
+% title('时间变化下的信噪比和误码率');
 grid on;
 % 添加图例
 legend(legend_handles, scheme_names, 'Location', 'best');
@@ -262,3 +263,39 @@ plot(SNR,all_throughput,'o');
 xlabel('SNR(dB)');
 ylabel('Throughput(bps)');
 title('SNR-Throughput');
+
+%% 3-D plot
+figure;
+% Define colors for each modulation scheme
+colors = [
+    1, 0, 0;    % BPSK_1/2
+    0, 1, 0;    % BPSK_1/3
+    0, 0, 1;    % BPSK_1/4
+    0, 0.6, 0.5;    % QPSK_1/2
+    1, 0, 1;    % QPSK_1/3
+    0, 1, 1;    % QPSK_1/4
+    0.5, 0, 0;  % 8PSK_1/2
+    0, 0.5, 0;  % 8PSK_1/3
+    0, 0, 0.5;  % 8PSK_1/4
+];
+% List of modulation schemes
+scheme_names = {'BPSK_1/2', 'BPSK_1/3', 'BPSK_1/4', 'QPSK_1/2', 'QPSK_1/3', 'QPSK_1/4', '8PSK_1/2', '8PSK_1/3', '8PSK_1/4'};
+% Pre-allocate the colors array for scatter3
+c = zeros(length(all_time_points), 3);
+% Assign colors based on the scheme
+for i = 1:length(all_time_points)
+    scheme_str = char(best_modulation_schemes{i});  % Convert to MATLAB string
+    scheme_index = find(strcmp(scheme_names, scheme_str));
+    c(i, :) = colors(scheme_index, :);
+end
+% Plot all points at once
+scatter3(all_time_points, SNR, all_BER_dc, 25, c, 'filled');
+% Label axes
+xlabel('Time Point');
+ylabel('SNR');
+zlabel('BER\_dc');
+% Add title and grid
+% title('时间变化下的信噪比和误码率');
+grid on;
+
+% % Add legend(how to?)

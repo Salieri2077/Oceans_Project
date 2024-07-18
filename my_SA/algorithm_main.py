@@ -123,6 +123,10 @@ def fitness(individual, snrs):
                 if snr >= config['threshold']: # 当信噪比大于设定的门限时，误码率会小于target_ber
                     total_rate += config['rate'] # !! rate为通信速率 !!
                     break
+                if snr < mcs_configs['MCS1']['threshold'] and config != 'MCS1':
+                    total_rate -= config['rate'] # 当信噪比过小时，我期望全选择MCS1调制方式(可能有更好的写法)
+                    break
+
     return total_rate
 
 # 选择操作
@@ -181,7 +185,9 @@ def genetic_algorithm(snrs, max_cross_time, population_size=50, K=25):
 def genetic_algorithm_main(file_name, max_cross_time):
     trues, preds = load_data(file_name)
     origin_data, channel_states = generate_channel_state(trues, preds, 'Informer-24')
-    snrs = channel_states # 信道状态为预测的信噪比
+    # snrs = channel_states # 信道状态为预测的信噪比
+    snrs = origin_data
+    # snrs = np.repeat(np.arange(-5,20,0.1),repeats=24)
     # 保存数据为 .mat 文件
     output_dir = './' + file_name
     save_path = os.path.join(output_dir, 'data.mat')
