@@ -21,6 +21,9 @@ def plot_result(trues, preds, model_name, color):
         else:
             origin_data[num_pred+i,:] = trues[i,-1,:]
             pred_data[num_pred+i,:] = preds[i,-1,:]
+    # 使用移动平均平滑处理 trues 数据
+    pred_data = moving_average(pred_data, window_size=24)  # 可以根据需要调整窗口大小
+    origin_data = moving_average(origin_data, window_size=24)  # 可以根据需要调整窗口大小
 
     origin_data = origin_data.T
     pred_data = pred_data.T
@@ -38,10 +41,8 @@ def moving_average(data, window_size):
 
 plt.figure(figsize=(10, 6))
 trues, preds = load_data('inpulse_tran_24')
-origin_plot,time_duration = plot_result(trues, preds, 'Transformer-24', color='red')
-# 使用移动平均平滑处理 trues 数据
-smoothed_trues = moving_average(origin_plot.T, window_size=5)  # 可以根据需要调整窗口大小
-plt.plot(np.arange(0,len(smoothed_trues))/100,smoothed_trues, label='GroundTruth(smoothed)', color='blue')  
+origin_plot,time_duration = plot_result(trues, preds, 'Transformer-24', color='purple')
+plt.plot(np.arange(0,len(origin_plot))/100,origin_plot, label='GroundTruth(smoothed)', color='blue')  
 # plt.plot(time_duration,origin_plot.T, label='GroundTruth', color='blue')  
 trues, preds = load_data('inpulse_lstm_24')
 plot_result(trues, preds, 'LSTM-24', color='green')
@@ -50,7 +51,7 @@ plot_result(trues, preds, 'GRU-24', color='orange')
 # trues, preds = load_data('inpulse_VanillaRNN_24')
 # plot_result(trues, preds, 'RNN-24', color='purple')
 trues, preds = load_data('inpulse_informer_24')
-plot_result(trues, preds, 'Informer-24', color='purple')
+plot_result(trues, preds, 'Informer-24', color='red')
 plt.legend()
 # plt.xlim(106, 136)
 plt.savefig('train_line_24.svg', format='svg')

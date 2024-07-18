@@ -13,7 +13,7 @@ parser.add_argument('--random_seed', type=int, default=2024, help='random seed')
 # basic config
 parser.add_argument('--is_training', type=int, default=1, help='status')
 parser.add_argument('--model_id', type=str, default='test', help='model id')
-parser.add_argument('--model', type=str,default='Informer',
+parser.add_argument('--model', type=str,default='VanillaRNN',
                     help='model name, options: [Autoformer, Informer, Transformer,VanillaRNN(include lstm,rnn),my_write:LSTM,GRU]')
 
 # data loader
@@ -45,8 +45,8 @@ parser.add_argument('--label_len', type=int, default=48, help='start token lengt
 parser.add_argument('--pred_len', type=int, default=24, help='prediction sequence length')
 
 # SegRNN
-parser.add_argument('--rnn_type', default='lstm', help='rnn_type')
-# parser.add_argument('--rnn_type', default='gru', help='rnn_type')
+# parser.add_argument('--rnn_type', default='lstm', help='rnn_type')
+parser.add_argument('--rnn_type', default='gru', help='rnn_type')
 # parser.add_argument('--rnn_type', default='rnn', help='rnn_type')
 
 parser.add_argument('--dec_way', default='pmf', help='decode way')
